@@ -1,0 +1,12 @@
+{
+  "name": "shilpa-sawiya",
+  "version": "1.0.0",
+  "description": "A web-based platform for educational material donation and requests where users can act as both donors and requesters.",
+  "main": "postcss.config.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

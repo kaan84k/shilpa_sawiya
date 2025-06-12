@@ -1,0 +1,60 @@
+[27-May-2025 08:07:53 Europe/Berlin] Starting file upload process
+[27-May-2025 08:07:53 Europe/Berlin] File upload attempted. File info: Array
+(
+    [name] => Untitled design (1).png
+    [full_path] => Untitled design (1).png
+    [type] => image/png
+    [tmp_name] => C:\xampp\tmp\php6204.tmp
+    [error] => 0
+    [size] => 648431
+)
+
+[27-May-2025 08:07:53 Europe/Berlin] Attempting to move uploaded file to: uploads/profile_pictures/user_1_1748326073.png
+[27-May-2025 08:07:53 Europe/Berlin] File moved successfully. Updating database...
+[27-May-2025 08:07:53 Europe/Berlin] Database update successful
+[27-May-2025 08:07:53 Europe/Berlin] Profile picture updated successfully for user ID: 1
+[27-May-2025 08:09:20 Europe/Berlin] Starting file upload process
+[27-May-2025 08:09:20 Europe/Berlin] File upload attempted. File info: Array
+(
+    [name] => CV (2).jpg
+    [full_path] => CV (2).jpg
+    [type] => image/jpeg
+    [tmp_name] => C:\xampp\tmp\phpB580.tmp
+    [error] => 0
+    [size] => 384220
+)
+
+[27-May-2025 08:09:20 Europe/Berlin] Attempting to move uploaded file to: uploads/profile_pictures/user_1_1748326160.jpg
+[27-May-2025 08:09:20 Europe/Berlin] File moved successfully. Updating database...
+[27-May-2025 08:09:20 Europe/Berlin] Database update successful
+[27-May-2025 08:09:20 Europe/Berlin] Profile picture updated successfully for user ID: 1
+[27-May-2025 08:22:22 Europe/Berlin] Starting file upload process
+[27-May-2025 08:22:22 Europe/Berlin] File upload attempted. File info: Array
+(
+    [name] => Untitled design (1).png
+    [full_path] => Untitled design (1).png
+    [type] => image/png
+    [tmp_name] => C:\xampp\tmp\phpA6F0.tmp
+    [error] => 0
+    [size] => 648431
+)
+
+[27-May-2025 08:22:22 Europe/Berlin] Attempting to move uploaded file to: uploads/profile_pictures/user_2_1748326942.png
+[27-May-2025 08:22:22 Europe/Berlin] File moved successfully. Updating database...
+[27-May-2025 08:22:22 Europe/Berlin] Database update successful
+[27-May-2025 08:22:22 Europe/Berlin] Profile picture updated successfully for user ID: 2
+[28-May-2025 11:04:15 Europe/Berlin] Starting file upload process
+[28-May-2025 11:04:15 Europe/Berlin] File upload attempted. File info: Array
+(
+    [name] => Untitled design (1).png
+    [full_path] => Untitled design (1).png
+    [type] => image/png
+    [tmp_name] => C:\xampp\tmp\phpF061.tmp
+    [error] => 0
+    [size] => 648431
+)
+
+[28-May-2025 11:04:15 Europe/Berlin] Attempting to move uploaded file to: uploads/profile_pictures/user_3_1748423055.png
+[28-May-2025 11:04:15 Europe/Berlin] File moved successfully. Updating database...
+[28-May-2025 11:04:15 Europe/Berlin] Database update successful
+[28-May-2025 11:04:15 Europe/Berlin] Profile picture updated successfully for user ID: 3
