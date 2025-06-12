@@ -1,25 +1,20 @@
 <?php
 session_start();
-require_once '../config/database.php';
-require_once '../src/Models/Request.php';
-require_once '../src/Models/Donation.php';
+require_once '../config/config.php';
+use App\Models\Request;
+use App\Models\Donation;
 
 // Check if user is logged in
 if (!isset($_SESSION['user_id'])) {
     header("Location: login.php");
     exit();
 }
-
 // Check if request_id is provided
 if (!isset($_GET['request_id'])) {
     header("Location: public-requests.php");
-    exit();
-}
-
 $request_id = $_GET['request_id'];
 $user_id = $_SESSION['user_id'];
 $request = new Request($conn);
-
 // Get request details
 $query = "SELECT r.*, u.name as requestor_name FROM requests r 
           JOIN users u ON r.user_id = u.id 
@@ -29,7 +24,6 @@ $stmt->bind_param("i", $request_id);
 $stmt->execute();
 $result = $stmt->get_result();
 $public_request = $result->fetch_assoc();
-
 // Handle donation offer
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
@@ -48,19 +42,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $condition,
             $image
         );
-        
         // Create donation request
         $request->requestDonation($donation_id, $public_request['user_id']);
-        
         $_SESSION['success'] = "Donation offered successfully! The requestor will be notified.";
         header("Location: my-donations.php");
         exit();
     } catch (Exception $e) {
         $error = $e->getMessage();
     }
-}
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -91,13 +81,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 <input type="text" class="form-control" id="title" name="title" 
                                        value="<?php echo htmlspecialchars($public_request['title']); ?>" required>
                             </div>
-                            <div class="mb-3">
                                 <label for="description" class="form-label">Description</label>
                                 <textarea class="form-control" id="description" name="description" rows="3" required>
                                     <?php echo htmlspecialchars($public_request['description']); ?>
                                 </textarea>
-                            </div>
-                            <div class="mb-3">
                                 <label for="condition" class="form-label">Condition</label>
                                 <select class="form-select" id="condition" name="condition" required>
                                     <option value="">Select condition</option>
@@ -106,19 +93,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                     <option value="good">Good</option>
                                     <option value="fair">Fair</option>
                                 </select>
-                            </div>
-                            <div class="mb-3">
                                 <label for="image" class="form-label">Item Photo (Optional)</label>
                                 <input type="file" class="form-control" id="image" name="image" accept="image/*">
-                            </div>
                             <button type="submit" class="btn btn-primary">Offer Donation</button>
                         </form>
-                    </div>
                 </div>
             </div>
         </div>
     </div>
-
     <?php include '../src/Views/footer.php'; ?>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>

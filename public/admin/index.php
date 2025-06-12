@@ -5,7 +5,7 @@ if (!isset($_SESSION['admin_logged_in'])) {
     exit();
 }
 
-require_once '../../config/database.php';
+require_once '../../config/config.php';
 require_once 'admin_model.php';
 require_once 'admin_render.php'; // Include the new render file
 $model = new AdminModel($conn);

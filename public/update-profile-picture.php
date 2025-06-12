@@ -4,25 +4,20 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 session_start();
-require_once '../config/database.php';
-require_once '../src/Models/UserAuth.php';
-
+require_once '../config/config.php';
+use App\Models\UserAuth;
 // Check if user is logged in
 if (!isset($_SESSION['user_id'])) {
     header('Location: login.php');
     exit();
 }
-
 // Log upload errors
 ini_set('log_errors', 1);
 ini_set('error_log', 'upload_errors.log');
-
 error_log("Starting file upload process");
-
 $userAuth = new UserAuth($conn);
 $error = '';
 $success = '';
-
 // Handle form submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['profile_picture'])) {
     $userId = $_SESSION['user_id'];
@@ -30,7 +25,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['profile_picture'])) 
     
     // Log file details
     error_log("File upload attempted. File info: " . print_r($file, true));
-    
     // Check for upload errors
     if ($file['error'] !== UPLOAD_ERR_OK) {
         $uploadErrors = [
@@ -48,7 +42,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['profile_picture'])) 
         header('Location: dashboard.php');
         exit();
     }
-    
     // Validate file
     $allowedTypes = [
         'image/jpeg' => 'jpg',
@@ -56,12 +49,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['profile_picture'])) 
         'image/gif' => 'gif'
     ];
     $maxFileSize = 2 * 1024 * 1024; // 2MB
-    
     // Check if file was uploaded without errors
     // Check file type
     $finfo = finfo_open(FILEINFO_MIME_TYPE);
     $mime = finfo_file($finfo, $file['tmp_name']);
-    
     if (!array_key_exists($mime, $allowedTypes)) {
         $error = 'Only JPG, PNG, and GIF files are allowed. Detected type: ' . $mime;
         error_log("Invalid file type: " . $mime);
@@ -84,7 +75,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['profile_picture'])) 
                 error_log("Failed to create directory: " . $uploadDir);
             }
         }
-        
         if (!is_writable($uploadDir)) {
             $error = 'Upload directory is not writable';
             error_log("Directory not writable: " . $uploadDir);
@@ -108,7 +98,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['profile_picture'])) 
                             }
                         }
                     }
-                    
                     // Update session with new profile picture
                     $_SESSION['profile_picture'] = $fileName;
                     $success = 'Profile picture updated successfully!';
@@ -116,33 +105,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['profile_picture'])) 
                 } else {
                     $error = 'Failed to update profile picture in database.';
                     error_log("Database update failed: " . $conn->error);
-                    
                     // Remove the uploaded file if database update failed
                     if (file_exists($uploadPath)) {
                         if (!unlink($uploadPath)) {
                             error_log("Warning: Failed to remove uploaded file after database error: " . $uploadPath);
-                        }
-                    }
                 }
             } else {
                 $error = 'Failed to move uploaded file. Check server permissions.';
                 error_log("move_uploaded_file failed. Error: " . print_r(error_get_last(), true));
                 error_log("Upload directory permissions: " . substr(sprintf('%o', fileperms($uploadDir)), -4));
-            }
-        }
-    }
-    
     // Store message in session to display after redirect
     if (!empty($error)) {
-        $_SESSION['error'] = $error;
-    } else {
         $_SESSION['success'] = $success;
-    }
-    
     header('Location: dashboard.php');
-    exit();
-}
-
 // If not a POST request or no file was uploaded, redirect to dashboard
 header('Location: dashboard.php');
 exit();

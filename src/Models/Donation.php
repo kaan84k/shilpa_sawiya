@@ -1,4 +1,6 @@
 <?php
+namespace App\Models;
+
 class Donation {
     private $conn;
     
@@ -172,7 +174,10 @@ class Donation {
     public function updateDonation($id, $title, $description, $category, $condition, $location, $image = null) {
         try {
             // Validate required fields
-            if (empty($title) || empty($category) || empty($condition) || empty($location)) {
+            if (!is_numeric($id) || $id <= 0) {
+                throw new Exception("Invalid donation id");
+            }
+            if (empty(trim($title)) || empty($category) || empty($condition) || empty(trim($location))) {
                 throw new Exception("Title, category, condition, and location are required");
             }
             

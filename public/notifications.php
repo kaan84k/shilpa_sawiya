@@ -1,18 +1,16 @@
 <?php
 session_start();
 require_once '../config/config.php';
-require_once '../src/Models/UserAuth.php';
+use App\Models\UserAuth;
 
 // Check if user is logged in
 if (!isset($_SESSION['user_id'])) {
     header("Location: login.php");
     exit();
 }
-
 // Get user details
 $userAuth = new UserAuth($conn);
 $user = $userAuth->getUserById($_SESSION['user_id']);
-
 // Handle marking notifications as read
 if (isset($_POST['mark_read'])) {
     $notification_id = $_POST['notification_id'];
@@ -20,18 +18,10 @@ if (isset($_POST['mark_read'])) {
     $stmt = $conn->prepare($query);
     $stmt->bind_param("ii", $notification_id, $_SESSION['user_id']);
     $stmt->execute();
-}
-
 // Handle deleting notifications
 if (isset($_POST['delete'])) {
-    $notification_id = $_POST['notification_id'];
     $query = "DELETE FROM notifications WHERE id = ? AND user_id = ?";
-    $stmt = $conn->prepare($query);
-    $stmt->bind_param("ii", $notification_id, $_SESSION['user_id']);
-    $stmt->execute();
-}
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -47,8 +37,6 @@ if (isset($_POST['delete'])) {
 <body>
     <?php
 // Get user details (already included at the top)
-?>
-
 <nav class="navbar navbar-expand-lg sticky-top">
     <div class="container">
         <a class="navbar-brand" href="index.php">
@@ -65,29 +53,17 @@ if (isset($_POST['delete'])) {
                         <i class="fa-solid fa-book me-1"></i>Donations
                     </a>
                 </li>
-                <li class="nav-item">
                     <a class="nav-link" href="public-requests.php">
                         <i class="fa-solid fa-book-open me-1"></i>Requests
-                    </a>
-                </li>
-                <li class="nav-item">
                     <a class="nav-link" href="#about">
                         <i class="fa-solid fa-address-card me-1"></i>About
-                    </a>
-                </li>
             </ul>
             <ul class="navbar-nav">
-                <li class="nav-item">
                     <span class="nav-link">
                         <i class="fas fa-user me-1"></i>Welcome, <?php echo htmlspecialchars($user['name']); ?>
                     </span>
-                </li>
-                <li class="nav-item">
                     <a class="nav-link" href="logout.php">
                         <i class="fas fa-sign-out-alt me-1"></i>Logout
-                    </a>
-                </li>
-            </ul>
         </div>
     </div>
 </nav>
@@ -136,21 +112,13 @@ if (isset($_POST['delete'])) {
                                             <input type="hidden" name="notification_id" value="' . $notification['id'] . '">
                                             <button type="submit" name="mark_read" class="btn btn-sm btn-outline-primary">Mark as Read</button>
                                         </form>
-                                        <form method="post" class="d-inline">
-                                            <input type="hidden" name="notification_id" value="' . $notification['id'] . '">
                                             <button type="submit" name="delete" class="btn btn-sm btn-outline-danger">Delete</button>
-                                        </form>
                                       </div>';
-                                echo '</div>';
                             }
                         } else {
                             echo '<div class="alert alert-info">No notifications yet.</div>';
                         }
                         ?>
-                    </div>
-                </div>
-            </div>
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
