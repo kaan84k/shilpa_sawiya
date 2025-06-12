@@ -19,6 +19,8 @@ A web-based platform for educational material donation and requests where users 
 
 4. Place Files:
    - Copy all project files to `C:\wamp\www\shilpa-sawiya`
+   - Ensure your web server's document root points to the `public/` directory.
+   - Run `composer install` and `composer dump-autoload` to set up autoloading.
 
 5. Access the Application:
    - Open browser and go to http://localhost/shilpa-sawiya
@@ -32,6 +34,12 @@ A web-based platform for educational material donation and requests where users 
 - User Dashboard
 - Notification System
 - Responsive Design
+## Project Structure
+- `public/` - web server document root containing all entry PHP files and assets
+- `src/` - application code organized into `Models`, `Controllers`, and `Views`
+- `config/` - configuration scripts
+- `tests/` - place for automated tests
+
 
 ## Technology Stack
 
