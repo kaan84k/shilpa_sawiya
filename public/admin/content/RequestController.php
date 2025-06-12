@@ -1,14 +1,12 @@
 <?php
-require_once '../../../config/database.php';
-require_once '../../../src/Models/Request.php';
-require_once '../../../src/Models/UserAuth.php';
+require_once '../../../config/config.php';
+use App\Models\Request;
+use App\Models\UserAuth;
 
 header('Content-Type: application/json');
-
 $action = $_REQUEST['action'] ?? '';
 $request = new Request($conn);
 $userAuth = new UserAuth($conn);
-
 switch ($action) {
     case 'list':
         // Get all requests with requester info
@@ -38,19 +36,15 @@ switch ($action) {
         $row = $request->getRequestById($id);
         if ($row) {
             $requester = $userAuth->getUserById($row['user_id']);
-            $row['requester'] = [
                 'id' => $requester['id'],
                 'name' => $requester['name'],
                 'email' => $requester['email'],
                 'mobile' => $requester['mobile'],
                 'profile_picture' => $requester['profile_picture'] ?? null,
                 'created_at' => $requester['created_at']
-            ];
             echo json_encode(['success' => true, 'request' => $row]);
         } else {
             echo json_encode(['success' => false, 'error' => 'Request not found']);
-        }
-        break;
     case 'update':
         $id = intval($_POST['id'] ?? 0);
         $title = trim($_POST['title'] ?? '');
@@ -61,17 +55,8 @@ switch ($action) {
             echo json_encode(['success' => true]);
         } catch (Exception $e) {
             echo json_encode(['success' => false, 'error' => $e->getMessage()]);
-        }
-        break;
     case 'delete':
-        $id = intval($_POST['id'] ?? 0);
-        try {
             $request->deleteRequest($id);
-            echo json_encode(['success' => true]);
-        } catch (Exception $e) {
-            echo json_encode(['success' => false, 'error' => $e->getMessage()]);
-        }
-        break;
     default:
         echo json_encode(['success' => false, 'error' => 'Invalid action']);
 }

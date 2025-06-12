@@ -1,13 +1,12 @@
 <?php
 session_start();
-require_once '../config/database.php';
-require_once '../src/Models/UserAuth.php';
-require_once '../src/Models/Donation.php';
+require_once '../config/config.php';
+use App\Models\UserAuth;
+use App\Models\Donation;
 
 // Check if it's an AJAX request
 $isAjax = !empty($_SERVER['HTTP_X_REQUESTED_WITH']) && 
          strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest';
-
 // Check if user is logged in
 if (!isset($_SESSION['user_id'])) {
     if ($isAjax) {
@@ -20,10 +19,8 @@ if (!isset($_SESSION['user_id'])) {
         exit();
     }
 }
-
 $user_id = $_SESSION['user_id'];
 $donation = new Donation($conn);
-
 // Handle donation submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Set JSON header for all responses
@@ -37,7 +34,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $condition = trim($_POST['condition'] ?? '');
         $location = trim($_POST['location'] ?? '');
         $image = $_FILES['image'] ?? null;
-        
         // Basic validation
         $errors = [];
         if (empty($title)) $errors[] = 'Title is required';
@@ -45,7 +41,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if (empty($category)) $errors[] = 'Category is required';
         if (empty($condition)) $errors[] = 'Condition is required';
         if (empty($location)) $errors[] = 'Location is required';
-        
         if (!empty($errors)) {
             http_response_code(400);
             echo json_encode([
@@ -54,7 +49,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             ]);
             exit;
         }
-        
         $donation_id = $donation->createDonation(
             $user_id,
             $title,
@@ -64,37 +58,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $location,
             $image
         );
-        
         $response = [
             'success' => true,
             'message' => 'Donation posted successfully!',
             'donation_id' => $donation_id
         ];
-        
         // Always return JSON response
         http_response_code(200);
         echo json_encode($response);
-        exit;
-        
     } catch (Exception $e) {
         $error = $e->getMessage();
-        $response = [
             'success' => false,
             'message' => $error
-        ];
-        
         // Always return JSON response for errors too
         http_response_code(400);
-        echo json_encode($response);
-        exit;
-    }
-    
     // If we get here, it's a non-AJAX request with an error
     header("Location: " . $_SERVER['HTTP_REFERER']);
     exit();
-}
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -111,7 +92,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $userAuth = new UserAuth($conn);
     $user = $userAuth->getUserById($_SESSION['user_id']);
     ?>
-
 <nav class="navbar navbar-expand-lg sticky-top">
         <div class="container">
             <a class="navbar-brand" href="index.php">
@@ -128,33 +108,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <i class="fa-solid fa-book me-1"></i>Donations
                         </a>
                     </li>
-                    <li class="nav-item">
                         <a class="nav-link" href="public-requests.php">
                             <i class="fa-solid fa-book-open me-1"></i>Requests
-                        </a>
-                    </li>
-                    <li class="nav-item">
                         <a class="nav-link" href="#about">
                             <i class="fa-solid fa-address-card me-1"></i>About
-                        </a>
-                    </li>
                 </ul>
                 <ul class="navbar-nav">
-                    <li class="nav-item">
                         <span class="nav-link">
                             <i class="fas fa-user me-1"></i>Welcome, <?php echo htmlspecialchars($user['name']); ?>
                         </span>
-                    </li>
-                    <li class="nav-item">
                         <a class="nav-link" href="logout.php">
                             <i class="fas fa-sign-out-alt me-1"></i>Logout
-                        </a>
-                    </li>
-                </ul>
             </div>
         </div>
     </nav>
-
     <div class="container mt-4">
         <div class="row">
             <div class="col-md-3">
@@ -164,7 +131,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <a href="my-requests.php" class="list-group-item list-group-item-action">My Requests</a>
                     <a href="notifications.php" class="list-group-item list-group-item-action">My Notifications</a>
                 </div>
-            </div>
             <div class="col-md-9">
                 <div class="card">
                     <div class="card-header">
@@ -181,9 +147,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <div class="mb-3">
                                 <label for="title" class="form-label">Book Title <span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="title" name="title" required>
-                            </div>
                             
-                            <div class="mb-3">
                                 <label for="description" class="form-label">Description <span class="text-danger">*</span></label>
                                 <textarea class="form-control" id="description" name="description" rows="4" required></textarea>
                                 
@@ -195,8 +159,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                         <img id="imagePreview" src="#" alt="Image Preview" style="max-width: 200px; max-height: 200px; display: none;" class="img-thumbnail">
                                     </div>
                                 </div>
-                            </div>
-                            
                             <div class="row">
                                 <div class="col-md-6 mb-3">
                                     <label for="category" class="form-label">Category <span class="text-danger">*</span></label>
@@ -208,9 +170,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                         <option value="Bags">Bags</option>
                                         <option value="Electronics">Electronics</option>
                                     </select>
-                                </div>
-                                
-                                <div class="col-md-6 mb-3">
                                     <label for="condition" class="form-label">Condition <span class="text-danger">*</span></label>
                                     <select class="form-select" id="condition" name="condition" required>
                                         <option value="">Select condition</option>
@@ -219,22 +178,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                         <option value="Very Good">Very Good</option>
                                         <option value="Good">Good</option>
                                         <option value="Acceptable">Acceptable</option>
-                                    </select>
-                                </div>
-                            </div>
-                            
-                            <div class="mb-3">
                                 <label for="location" class="form-label">Location <span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="location" name="location" required>
                                 <div class="form-text">Start typing to search for your location</div>
-                            </div>
-                            
                             <div class="mb-4">
                                 <label for="image" class="form-label">Book Image</label>
                                 <input type="file" class="form-control" id="image" name="image" accept="image/*">
                                 <div class="form-text">Upload a clear photo of the book (max 5MB, optional)</div>
-                            </div>
-                            
                             <div class="d-flex gap-2">
                                 <button type="submit" class="btn btn-primary">
                                     <i class="fas fa-paper-plane me-1"></i>Submit Donation
@@ -242,14 +192,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 <a href="donations.php" class="btn btn-outline-secondary">
                                     <i class="fas fa-times me-1"></i>Cancel
                                 </a>
-                            </div>
                         </form>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
-
     <?php include '../src/Views/footer.php'; ?>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
@@ -265,19 +209,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 preview.src = e.target.result;
                 preview.style.display = 'block';
             }
-            
             reader.readAsDataURL(file);
-        }
     });
-    
     // Form submission with AJAX
     $(document).ready(function() {
         $('form.needs-validation').on('submit', function(e) {
             e.preventDefault();
-            
             const form = $(this);
             const formData = new FormData(this);
-            
             $.ajax({
                 url: form.attr('action'),
                 type: 'POST',
@@ -302,13 +241,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 }
             });
         });
-    });
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/moment/min/moment.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
     <script src="assets/js/search.js"></script>
-    <script>
         $(document).ready(function() {
             // Initialize location autocomplete
             $.getJSON('data/districts.json', function(data) {
@@ -320,10 +257,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     select: function(event, ui) {
                         $(this).val(ui.item.value);
                         return false;
-                    }
                 });
-            });
-        });
-    </script>
 </body>
 </html>

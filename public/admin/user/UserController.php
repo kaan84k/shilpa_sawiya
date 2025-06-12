@@ -1,6 +1,6 @@
 <?php
 // Handles user management actions: fetch, update, delete
-require_once '../../config/database.php';
+require_once '../../config/config.php';
 header('Content-Type: application/json');
 $action = $_GET['action'] ?? $_POST['action'] ?? '';
 

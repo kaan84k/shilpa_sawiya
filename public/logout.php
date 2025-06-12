@@ -1,10 +1,9 @@
 <?php
 session_start();
-require_once '../src/Models/UserAuth.php';
+use App\Models\UserAuth;
 
 $userAuth = new UserAuth(null);
 $userAuth->logout();
-
 header("Location: login.php");
 exit();
 ?>

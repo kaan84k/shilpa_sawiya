@@ -1,4 +1,6 @@
 <?php
+namespace App\Models;
+
 class UserAuth {
     private $conn;
     
@@ -166,4 +168,5 @@ class UserAuth {
         } catch (Exception $e) {
             throw $e;
         }
-    }}
+    }
+}

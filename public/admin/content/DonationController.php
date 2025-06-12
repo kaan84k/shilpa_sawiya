@@ -1,15 +1,14 @@
 <?php
 // filepath: c:/xampp/htdocs/shilpa-sawiya/admin/content/DonationController.php
-require_once '../../../config/database.php';
-require_once '../../../src/Models/Donation.php';
-require_once '../../../src/Models/UserAuth.php';
+require_once '../../../config/config.php';
+
+use App\Models\Donation;
+use App\Models\UserAuth;
 
 header('Content-Type: application/json');
-
 $action = $_REQUEST['action'] ?? '';
 $donation = new Donation($conn);
 $userAuth = new UserAuth($conn);
-
 switch ($action) {
     case 'list':
         // Get all donations with donor info
@@ -51,19 +50,15 @@ switch ($action) {
         $row = $donation->getDonationById($id);
         if ($row) {
             $donor = $userAuth->getUserById($row['user_id']);
-            $row['donor'] = [
                 'id' => $donor['id'],
                 'name' => $donor['name'],
                 'email' => $donor['email'],
                 'mobile' => $donor['mobile'],
                 'profile_picture' => $donor['profile_picture'] ?? null,
                 'created_at' => $donor['created_at']
-            ];
             echo json_encode(['success' => true, 'donation' => $row]);
         } else {
             echo json_encode(['success' => false, 'error' => 'Donation not found']);
-        }
-        break;
     case 'update':
         $id = intval($_POST['id'] ?? 0);
         $title = trim($_POST['title'] ?? '');
@@ -75,17 +70,8 @@ switch ($action) {
             echo json_encode(['success' => true]);
         } catch (Exception $e) {
             echo json_encode(['success' => false, 'error' => $e->getMessage()]);
-        }
-        break;
     case 'delete':
-        $id = intval($_POST['id'] ?? 0);
-        try {
             $donation->deleteDonation($id);
-            echo json_encode(['success' => true]);
-        } catch (Exception $e) {
-            echo json_encode(['success' => false, 'error' => $e->getMessage()]);
-        }
-        break;
     default:
         echo json_encode(['success' => false, 'error' => 'Invalid action']);
 }

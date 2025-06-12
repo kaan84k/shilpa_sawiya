@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once '../config/database.php';
+require_once '../config/config.php';
 
 if(isset($_POST['register'])) {
     $email = mysqli_real_escape_string($conn, $_POST['email']);
