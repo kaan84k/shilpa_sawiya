@@ -4,32 +4,24 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 session_start();
-require_once '../config/database.php';
-require_once '../src/Models/UserAuth.php';
-require_once '../src/Models/Donation.php';
-
+require_once '../config/config.php';
+use App\Models\UserAuth;
+use App\Models\Donation;
 // Set content type to JSON
 header('Content-Type: application/json');
-
 // Check if user is logged in
 if (!isset($_SESSION['user_id'])) {
     echo json_encode(['success' => false, 'message' => 'You must be logged in to perform this action.']);
     exit();
 }
-
 $user_id = $_SESSION['user_id'];
 $donation = new Donation($conn);
-
 // Get donation ID from POST data
 $donation_id = isset($_POST['id']) ? intval($_POST['id']) : 0;
-
 // Check if donation exists and belongs to the user
 $donation_data = $donation->getDonationById($donation_id);
 if (!$donation_data || $donation_data['user_id'] !== $user_id) {
     echo json_encode(['success' => false, 'message' => 'Donation not found or you don\'t have permission to edit it.']);
-    exit();
-}
-
 // Handle form submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
@@ -42,11 +34,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $missing_fields[] = ucfirst($field);
             }
         }
-        
         if (!empty($missing_fields)) {
             throw new Exception("The following fields are required: " . implode(', ', $missing_fields));
-        }
-
         // Get form data
         $title = trim($_POST['title']);
         $description = trim($_POST['description']);
@@ -54,7 +43,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $condition = trim($_POST['condition']);
         $location = trim($_POST['location']);
         $image = $_FILES['image'] ?? null;
-
         // Update donation
         if ($donation->updateDonation($donation_id, $title, $description, $category, $condition, $location, $image)) {
             // Get updated donation data
@@ -67,7 +55,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             ]);
         } else {
             throw new Exception("Failed to update donation. Please try again.");
-        }
     } catch (Exception $e) {
         http_response_code(400);
         error_log('Update Donation Error: ' . $e->getMessage() . ' in ' . $e->getFile() . ' on line ' . $e->getLine());
@@ -77,9 +64,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             'trace' => $e->getTraceAsString()
         ]);
     }
-    exit();
-}
-
 // If not a POST request, return 405 Method Not Allowed
 http_response_code(405);
 echo json_encode([

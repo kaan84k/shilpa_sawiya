@@ -1,9 +1,11 @@
 <?php
-// Database configuration
-$host = 'localhost';
-$dbname = 'shilpa_sawiya';
-$username = 'root';
-$password = '';
+require_once __DIR__ . '/../bootstrap.php';
+
+// Database configuration from environment variables
+$host = getenv('DB_HOST') ?: 'localhost';
+$dbname = getenv('DB_NAME') ?: 'shilpa_sawiya';
+$username = getenv('DB_USER') ?: 'root';
+$password = getenv('DB_PASSWORD') ?: '';
 
 // Initialize session only if it's not already started
 if (session_status() === PHP_SESSION_NONE) {
@@ -19,4 +21,3 @@ try {
 } catch (Exception $e) {
     die("Connection failed: " . $e->getMessage());
 }
-?>

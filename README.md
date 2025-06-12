@@ -4,26 +4,23 @@ A web-based platform for educational material donation and requests where users 
 
 ## Setup Instructions
 
-1. Install WAMP Server:
-   - Download and install WAMP from https://www.wampserver.com/
-   - Start WAMP services
+1. Clone the repository and install PHP (>=7.4) and MySQL on your system.
+   The project can run on Linux, macOS or Windows.
 
-2. Create Database:
-   - Open phpMyAdmin (http://localhost/phpmyadmin)
-   - Create a new database named 'shilpa_sawiya'
-   - Import the database schema from `database.sql`
+2. Create the database:
+   - Create a MySQL database named `shilpa_sawiya`.
+   - Import the schema from `database.sql` (or the migration files).
 
-3. Configure Database:
-   - Open `config/database.php`
-   - Update database credentials if needed (default: root/blank password)
+3. Environment configuration:
+   - Copy `.env.example` to `.env` and update the database credentials.
+   - The application reads these values at runtime.
 
-4. Place Files:
-   - Copy all project files to `C:\wamp\www\shilpa-sawiya`
-   - Ensure your web server's document root points to the `public/` directory.
-   - Run `composer install` and `composer dump-autoload` to set up autoloading.
+4. Serve the application:
+   - Point your web server's document root to the `public/` directory **or**
+     run `php -S localhost:8000 -t public` for quick testing.
 
-5. Access the Application:
-   - Open browser and go to http://localhost/shilpa-sawiya
+5. Access the application by navigating to `http://localhost:8000` in your
+   browser (or your configured virtual host).
 
 ## Features
 
@@ -38,7 +35,9 @@ A web-based platform for educational material donation and requests where users 
 - `public/` - web server document root containing all entry PHP files and assets
 - `src/` - application code organized into `Models`, `Controllers`, and `Views`
 - `config/` - configuration scripts
-- `tests/` - place for automated tests
+- `tests/` - contains a simple test suite. Run `tests/run_tests.sh`
+  to execute the tests.
+- `.env.example` - sample environment configuration file
 
 
 ## Technology Stack
@@ -46,7 +45,14 @@ A web-based platform for educational material donation and requests where users 
 - Frontend: HTML5, CSS3, JavaScript, Bootstrap 5
 - Backend: PHP
 - Database: MySQL
-- Server: WAMP
+- Server: WAMP or any PHP web server
+
+## API Endpoints
+
+The project exposes a few JSON endpoints for administration:
+
+- `admin/content/DonationController.php` – manage donations (`action=list|get|update|delete`).
+- `admin/content/RequestController.php` – manage requests (`action=list|get|update|delete`).
 
 ## Security Features
 
@@ -62,6 +68,11 @@ A web-based platform for educational material donation and requests where users 
 3. Commit your changes
 4. Push to the branch
 5. Create a Pull Request
+
+## Future Improvements
+
+The current codebase is intentionally lightweight. Adopting a small framework or
+a routing library would help keep the controllers simple and maintainable.
 
 ## License
 

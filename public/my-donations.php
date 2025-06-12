@@ -1,18 +1,16 @@
 <?php
 session_start();
-require_once '../config/database.php';
-require_once '../src/Models/UserAuth.php';
-require_once '../src/Models/Donation.php';
+require_once '../config/config.php';
 
+use App\Models\UserAuth;
+use App\Models\Donation;
 // Check if user is logged in
 if (!isset($_SESSION['user_id'])) {
     header("Location: login.php");
     exit();
 }
-
 $user_id = $_SESSION['user_id'];
 $donation = new Donation($conn);
-
 // Handle update or delete actions
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
@@ -31,10 +29,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $condition,
                 null // Add the appropriate 6th argument here, e.g., $image or null if not updating image
             );
-            
             $_SESSION['success'] = "Donation updated successfully!";
         } elseif (isset($_POST['delete'])) {
-            $donation_id = $_POST['donation_id'];
             $donation->deleteDonation($donation_id);
             $_SESSION['success'] = "Donation deleted successfully!";
         }
@@ -44,12 +40,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } catch (Exception $e) {
         $_SESSION['error'] = $e->getMessage();
     }
-}
-
 // Get user's donations
 $user_donations = $donation->getUserDonations($user_id);
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -67,8 +60,6 @@ $user_donations = $donation->getUserDonations($user_id);
 // Get user details
 $userAuth = new UserAuth($conn);
 $user = $userAuth->getUserById($_SESSION['user_id']);
-?>
-
 <nav class="navbar navbar-expand-lg sticky-top">
         <div class="container">
             <a class="navbar-brand" href="index.php">
@@ -85,29 +76,17 @@ $user = $userAuth->getUserById($_SESSION['user_id']);
                             <i class="fa-solid fa-book me-1"></i>Donations
                         </a>
                     </li>
-                    <li class="nav-item">
                         <a class="nav-link" href="public-requests.php">
                             <i class="fa-solid fa-book-open me-1"></i>Requests
-                        </a>
-                    </li>
-                    <li class="nav-item">
                         <a class="nav-link" href="#about">
                             <i class="fa-solid fa-address-card me-1"></i>About
-                        </a>
-                    </li>
                 </ul>
                 <ul class="navbar-nav">
-                    <li class="nav-item">
                         <span class="nav-link">
                             <i class="fas fa-user me-1"></i>Welcome, <?php echo htmlspecialchars($user['name']); ?>
                         </span>
-                    </li>
-                    <li class="nav-item">
                         <a class="nav-link" href="logout.php">
                             <i class="fas fa-sign-out-alt me-1"></i>Logout
-                        </a>
-                    </li>
-                </ul>
             </div>
         </div>
     </nav>
@@ -121,7 +100,6 @@ $user = $userAuth->getUserById($_SESSION['user_id']);
                     <a href="my-requests.php" class="list-group-item list-group-item-action">My Requests</a>
                     <a href="notifications.php" class="list-group-item list-group-item-action">My Notifications</a>
                 </div>
-            </div>
             <div class="col-md-9">
                 <div class="card">
                     <div class="card-header">
@@ -133,13 +111,11 @@ $user = $userAuth->getUserById($_SESSION['user_id']);
                         <?php endif; ?>
                         <?php if(isset($_SESSION['error'])): ?>
                             <div class="alert alert-danger"><?php echo $_SESSION['error']; unset($_SESSION['error']); ?></div>
-                        <?php endif; ?>
                         
                         <div class="d-flex justify-content-between align-items-center mb-4">
                             <h5>Manage Your Donations</h5>
                             <a href="donate.php" class="btn btn-primary">Post New Donation</a>
                         </div>
-                        
                         <?php if(empty($user_donations)): ?>
                             <div class="alert alert-info">
                                 You haven't posted any donations yet. <a href="donate.php">Post your first donation</a>!
@@ -166,15 +142,12 @@ $user = $userAuth->getUserById($_SESSION['user_id']);
                                                                 break;
                                                             case 'requested':
                                                                 echo 'bg-warning';
-                                                                break;
                                                             case 'completed':
                                                                 echo 'bg-info';
-                                                                break;
                                                             default:
                                                                 echo 'bg-secondary';
                                                         }
                                                     ?>"><?php echo ucfirst($donation['status']); ?></span>
-                                                </div>
                                                 <?php
                                                     // Define category icons and colors
                                                     $category_icons = [
@@ -191,7 +164,6 @@ $user = $userAuth->getUserById($_SESSION['user_id']);
                                                         <i class="fas fa-<?php echo $category_icon['icon']; ?> me-1"></i>
                                                         <?php echo htmlspecialchars($donation['category']); ?>
                                                     </span>
-                                                </div>
                                                 <p class="card-text mb-3"><?php echo htmlspecialchars($donation['description']); ?></p>
                                                 <p class="card-text mb-4">
                                                     <small class="text-muted">
@@ -221,13 +193,7 @@ $user = $userAuth->getUserById($_SESSION['user_id']);
                                         </div>
                                     </div>
                                 <?php endforeach; ?>
-                            </div>
-                        <?php endif; ?>
-                    </div>
-                </div>
-            </div>
     </div>
-
     <?php include '../src/Views/footer.php'; ?>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>

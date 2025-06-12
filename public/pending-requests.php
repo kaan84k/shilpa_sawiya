@@ -1,18 +1,16 @@
 <?php
 session_start();
-require_once '../config/database.php';
-require_once '../src/Models/UserAuth.php';
-require_once '../src/Models/Request.php';
+require_once '../config/config.php';
+use App\Models\UserAuth;
+use App\Models\Request;
 
 // Check if user is logged in
 if (!isset($_SESSION['user_id'])) {
     header("Location: login.php");
     exit();
 }
-
 $user_id = $_SESSION['user_id'];
 $request = new Request($conn);
-
 // Handle request status updates
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
@@ -22,7 +20,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if (!in_array($status, ['accepted', 'rejected'])) {
             throw new Exception("Invalid status");
         }
-        
         $request->handleDonationRequest($request_id, $status);
         $_SESSION['success'] = "Request status updated successfully!";
         header("Location: pending-requests.php");
@@ -30,12 +27,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } catch (Exception $e) {
         $_SESSION['error'] = $e->getMessage();
     }
-}
-
 // Get user's pending donation requests
 $pending_requests = $request->getPendingDonationRequests($user_id);
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -54,10 +48,7 @@ $pending_requests = $request->getPendingDonationRequests($user_id);
         <?php endif; ?>
         <?php if(isset($_SESSION['error'])): ?>
             <div class="alert alert-danger"><?php echo $_SESSION['error']; unset($_SESSION['error']); ?></div>
-        <?php endif; ?>
-        
         <h2>Pending Donation Requests</h2>
-        
         <?php if(empty($pending_requests)): ?>
             <div class="alert alert-info">
                 No pending requests at the moment. Your donations are available for others to request.
@@ -86,10 +77,7 @@ $pending_requests = $request->getPendingDonationRequests($user_id);
                         </div>
                     </div>
                 <?php endforeach; ?>
-            </div>
-        <?php endif; ?>
     </div>
-
     <?php include '../src/Views/footer.php'; ?>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>

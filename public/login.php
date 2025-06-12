@@ -1,7 +1,7 @@
 <?php
 session_start();
-require_once '../config/database.php';
-require_once '../src/Models/UserAuth.php';
+require_once '../config/config.php';
+use App\Models\UserAuth;
 
 if(isset($_POST['login'])) {
     try {
@@ -10,7 +10,6 @@ if(isset($_POST['login'])) {
         
         $userAuth = new UserAuth($conn);
         $result = $userAuth->login($email, $password);
-        
         if ($result) {
             header("Location: dashboard.php");
             exit();
@@ -20,7 +19,6 @@ if(isset($_POST['login'])) {
     }
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -32,7 +30,6 @@ if(isset($_POST['login'])) {
 </head>
 <body>
     <?php include '../src/Views/header.php'; ?>
-
     <div class="container mt-5 pt-5">
         <div class="row">
             <div class="col-md-6 offset-md-3">
@@ -50,21 +47,17 @@ if(isset($_POST['login'])) {
                                 <label for="email" class="form-label">Email</label>
                                 <input type="email" class="form-control" id="email" name="email" required>
                             </div>
-                            <div class="mb-3">
                                 <label for="password" class="form-label">Password</label>
                                 <input type="password" class="form-control" id="password" name="password" required>
-                            </div>
                             <button type="submit" name="login" class="btn btn-primary w-100">Login</button>
                         </form>
                         <div class="text-center mt-3">
                             <p>Don't have an account? <a href="register.php">Register here</a></p>
                         </div>
-                    </div>
                 </div>
             </div>
         </div>
     </div>
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
