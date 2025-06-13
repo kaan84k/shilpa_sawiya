@@ -60,7 +60,7 @@ $user_donations = $donation->getUserDonations($user_id);
 // Get user details
 $userAuth = new UserAuth($conn);
 $user = $userAuth->getUserById($_SESSION['user_id']);
-<nav class="navbar navbar-expand-lg sticky-top">
+<nav class="navbar navbar-expand-lg sticky-top" role="navigation" aria-label="Main navigation">
         <div class="container">
             <a class="navbar-brand" href="index.php">
                 <i class="fas fa-book-reader me-2"></i>

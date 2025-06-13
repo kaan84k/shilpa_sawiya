@@ -74,7 +74,7 @@ if(isset($_POST['register'])) {
                         <?php if(isset($error)): ?>
                             <div class="alert alert-danger"><?php echo $error; ?></div>
                         <?php endif; ?>
-                        <div id="registerAlert" class="alert d-none" role="alert"></div>
+                        <div id="registerAlert" class="alert d-none" role="alert" aria-live="assertive"></div>
 
                         <form method="POST" action="" id="registerForm">
                             <div class="mb-3">
@@ -139,8 +139,16 @@ if(isset($_POST['register'])) {
 
             $('#registerForm').on('submit', function(e) {
                 e.preventDefault();
+                const name = $('#name').val().trim();
+                const email = $('#email').val().trim();
+                const mobile = $('#mobile').val().trim();
+                const location = $('#location').val().trim();
                 const password = $('#password').val();
                 const confirmPassword = $('#confirm_password').val();
+                if (!name) { showRegisterAlert('Please enter your full name.'); return; }
+                if (!email) { showRegisterAlert('Please enter a valid email address.'); return; }
+                if (!mobile) { showRegisterAlert('Please enter your mobile number.'); return; }
+                if (!location) { showRegisterAlert('Please specify your location.'); return; }
                 if (password !== confirmPassword) {
                     showRegisterAlert('Passwords do not match!', 'danger');
                     return;
@@ -150,7 +158,7 @@ if(isset($_POST['register'])) {
                 const alertDiv = $('#registerAlert');
                 btn.prop('disabled', true)
                    .html('<span class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span> Registering...');
-                alertDiv.addClass('d-none').removeClass('alert-danger alert-success').text('');
+                alertDiv.addClass('d-none').removeClass('alert-danger alert-success');
                 $.ajax({
                     url: '',
                     type: 'POST',
@@ -161,10 +169,10 @@ if(isset($_POST['register'])) {
                         alertDiv.removeClass('d-none alert-danger').addClass('alert-success').text(res.message);
                         setTimeout(function(){ window.location.href = 'login.php'; }, 1500);
                     } else {
-                        alertDiv.removeClass('d-none').addClass('alert-danger').text(res.message || 'Registration failed');
+                        alertDiv.removeClass('d-none').addClass('alert-danger').text(res.message || 'Unable to register with the provided details.');
                     }
                 }).fail(function() {
-                    alertDiv.removeClass('d-none').addClass('alert-danger').text('An error occurred. Please try again.');
+                    alertDiv.removeClass('d-none').addClass('alert-danger').text('Unable to complete the registration at this time.');
                 }).always(function() {
                     btn.prop('disabled', false).html('<i class="fas fa-user-plus me-1"></i>Register');
                 });

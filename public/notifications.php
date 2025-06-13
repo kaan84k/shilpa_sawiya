@@ -37,7 +37,7 @@ if (isset($_POST['delete'])) {
 <body>
     <?php
 // Get user details (already included at the top)
-<nav class="navbar navbar-expand-lg sticky-top">
+<nav class="navbar navbar-expand-lg sticky-top" role="navigation" aria-label="Main navigation">
     <div class="container">
         <a class="navbar-brand" href="index.php">
             <i class="fas fa-book-reader me-2"></i>

@@ -56,7 +56,7 @@ if(isset($_POST['login'])) {
                             <div class="alert alert-danger"><?php echo $error; ?></div>
                         <?php endif; ?>
                         
-                        <div id="loginAlert" class="alert d-none" role="alert"></div>
+                        <div id="loginAlert" class="alert d-none" role="alert" aria-live="assertive"></div>
                         <form method="POST" action="" id="loginForm">
                             <div class="mb-3">
                                 <label for="email" class="form-label">Email</label>
@@ -83,9 +83,19 @@ if(isset($_POST['login'])) {
             e.preventDefault();
             const btn = $('#loginBtn');
             const alertDiv = $('#loginAlert');
+            const email = $('#email').val().trim();
+            const password = $('#password').val().trim();
+            if (!email) {
+                alertDiv.removeClass('d-none alert-success').addClass('alert-danger').text('Please enter your email address.');
+                return;
+            }
+            if (!password) {
+                alertDiv.removeClass('d-none alert-success').addClass('alert-danger').text('Please enter your password.');
+                return;
+            }
             btn.prop('disabled', true)
                .html('<span class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span> Logging in...');
-            alertDiv.addClass('d-none').removeClass('alert-danger').text('');
+            alertDiv.addClass('d-none').removeClass('alert-danger');
             $.ajax({
                 url: '',
                 type: 'POST',
@@ -95,10 +105,10 @@ if(isset($_POST['login'])) {
                 if (res.success) {
                     window.location.href = 'dashboard.php';
                 } else {
-                    alertDiv.removeClass('d-none').addClass('alert-danger').text(res.message || 'Login failed');
+                    alertDiv.removeClass('d-none').addClass('alert-danger').text(res.message || 'Invalid email or password.');
                 }
             }).fail(function() {
-                alertDiv.removeClass('d-none').addClass('alert-danger').text('An error occurred. Please try again.');
+                alertDiv.removeClass('d-none').addClass('alert-danger').text('Unable to process the login at this time.');
             }).always(function() {
                 btn.prop('disabled', false).html('<i class="fas fa-sign-in-alt me-1"></i>Login');
             });
