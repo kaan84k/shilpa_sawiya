@@ -155,8 +155,8 @@ $donor = $userAuth->getUserById($donation_details['user_id']);
                                     <?php if(!empty($donation_details['image'])): ?>
                                         <div class="mt-2">
                                             <p class="mb-1">Current Image:</p>
-                                            <img src="uploads/donations/<?php echo htmlspecialchars($donation_details['image']); ?>" 
-                                                 class="img-thumbnail" style="max-height: 150px;" alt="Current Image">
+                                            <img src="uploads/donations/<?php echo htmlspecialchars($donation_details['image']); ?>"
+                                                 class="img-thumbnail max-h-150" alt="Current Image">
                                         </div>
                                     <?php endif; ?>
                     <div class="modal-footer">

@@ -130,10 +130,9 @@ $completed_donations = $donation->getCompletedDonationsWithUsers(6); // Get 6 mo
                                             ? 'uploads/profile_pictures/' . htmlspecialchars($donation['profile_picture'])
                                             : 'https://ui-avatars.com/api/?name=' . urlencode($donation['user_name']) . '&size=100';
                                         ?>
-                                        <img src="<?php echo $profilePic; ?>" 
-                                             alt="<?php echo htmlspecialchars($donation['user_name']); ?>" 
-                                             class="donor-avatar me-3" 
-                                             style="width: 40px; height: 40px; object-fit: cover; border-radius: 50%;">
+                                        <img src="<?php echo $profilePic; ?>"
+                                             alt="<?php echo htmlspecialchars($donation['user_name']); ?>"
+                                             class="donor-avatar me-3 img-cover w-40 h-40 rounded-circle">
                                         <div>
                                             <h6 class="mb-0">Donated by <?php echo htmlspecialchars($donation['user_name']); ?></h6>
                                             <small class="text-muted"><?php echo date('F j, Y', strtotime($donation['updated_at'])); ?></small>

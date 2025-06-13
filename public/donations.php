@@ -37,7 +37,7 @@ $available_donations = $donation->getAvailableDonations($category, $location, $d
                 <form method="GET" class="row g-3 align-items-end">
                     <div class="col-lg-3 col-md-6">
                         <label for="category" class="form-label fw-medium text-muted mb-1">Category</label>
-                        <select class="form-select form-select-lg" id="category" name="category" style="height: 50px;">
+                        <select class="form-select form-select-lg h-50" id="category" name="category">
                             <option value="">All Categories</option>
                             <option value="Books" <?php echo $category === 'Books' ? 'selected' : ''; ?>>📚 Books</option>
                             <option value="Stationery" <?php echo $category === 'Stationery' ? 'selected' : ''; ?>>✏️ Stationery</option>
@@ -61,7 +61,7 @@ $available_donations = $donation->getAvailableDonations($category, $location, $d
                     <div class="card border-0 shadow-sm rounded-3">
                         <div class="card-body text-center p-5">
                             <div class="mb-4">
-                                <i class="fas fa-box-open text-muted" style="font-size: 4rem; opacity: 0.5;"></i>
+                                <i class="fas fa-box-open text-muted icon-muted-large"></i>
                             </div>
                             <h4 class="text-muted mb-3">No Donations Found</h4>
                             <p class="text-muted mb-4">We couldn't find any donations matching your criteria. Try adjusting your filters or check back later.</p>
@@ -86,11 +86,10 @@ $available_donations = $donation->getAvailableDonations($category, $location, $d
                         <div class="position-relative">
                             <?php if(!empty($donation['image'])): ?>
                                 <img src="uploads/donations/<?php echo htmlspecialchars($donation['image']); ?>" 
-                                     class="card-img-top object-fit-cover" 
-                                     alt="<?php echo htmlspecialchars($donation['title']); ?>"
-                                     style="height: 200px; width: 100%; object-fit: cover;">
+                                     class="card-img-top img-cover h-200"
+                                     alt="<?php echo htmlspecialchars($donation['title']); ?>">
                             <?php else: ?>
-                                <div class="bg-light d-flex align-items-center justify-content-center" style="height: 200px;">
+                                <div class="bg-light d-flex align-items-center justify-content-center h-200">
                                     <i class="fas fa-<?php echo $category_icon['icon']; ?> fa-4x text-<?php echo $category_icon['color']; ?>-subtle"></i>
                                 </div>
                             <?php endif; ?>
@@ -163,19 +162,19 @@ $available_donations = $donation->getAvailableDonations($category, $location, $d
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 <div class="modal-body py-4">
                     <div class="text-center mb-4">
-                        <div class="icon-box bg-light-primary rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 80px; height: 80px;">
-                            <i class="fas fa-question text-primary" style="font-size: 2rem;"></i>
+                        <div class="icon-box bg-light-primary rounded-circle d-inline-flex align-items-center justify-content-center mb-3 w-80 h-80">
+                            <i class="fas fa-question text-primary icon-2rem"></i>
                         <h5 class="fw-bold mb-2">Confirm Your Request</h5>
                         <p class="text-muted mb-0">Are you sure you want to request this item? The donor will be notified of your interest.</p>
                     
                     <div id="requestProcessing" class="text-center py-4 d-none">
-                        <div class="spinner-border text-primary mb-3" role="status" style="width: 3rem; height: 3rem;">
+                        <div class="spinner-border text-primary mb-3 spinner-3rem" role="status">
                             <span class="visually-hidden">Processing...</span>
                         <h6 class="fw-bold text-primary mb-1">Processing Your Request</h6>
                         <p class="text-muted small mb-0">Please wait while we process your request...</p>
                     <div id="requestSuccess" class="text-center py-4 d-none">
-                        <div class="icon-box bg-light-success rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 80px; height: 80px;">
-                            <i class="fas fa-check text-success" style="font-size: 2rem;"></i>
+                        <div class="icon-box bg-light-success rounded-circle d-inline-flex align-items-center justify-content-center mb-3 w-80 h-80">
+                            <i class="fas fa-check text-success icon-2rem"></i>
                         <h5 class="fw-bold text-success mb-2">Request Sent!</h5>
                         <p class="text-muted mb-0">Your request has been sent to the donor. You'll be notified when they respond.</p>
                         <button type="button" class="btn btn-success mt-3 px-4" data-bs-dismiss="modal">Close</button>

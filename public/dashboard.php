@@ -152,7 +152,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 ? 'uploads/profile_pictures/' . htmlspecialchars($user['profile_picture']) 
                                 : 'https://ui-avatars.com/api/?name=' . urlencode($user['name']) . '&size=40';
                             ?>
-                            <img src="<?php echo $profilePic; ?>" class="rounded-circle me-2" width="30" height="30" style="object-fit: cover;">
+                            <img src="<?php echo $profilePic; ?>" class="rounded-circle me-2 img-cover" width="30" height="30">
                             <?php echo htmlspecialchars($user['name']); ?>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
                             <li><a class="dropdown-item" href="#profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab"><i class="fas fa-user me-2"></i>Profile</a></li>
@@ -187,7 +187,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                         ? 'uploads/profile_pictures/' . htmlspecialchars($user['profile_picture']) 
                                         : 'https://ui-avatars.com/api/?name=' . urlencode($user['name']);
                                     ?>
-                                    <img id="profileImage" src="<?php echo $profilePic; ?>" alt="Profile" class="rounded-circle mb-3" style="width: 150px; height: 150px; object-fit: cover; border: 3px solid #fff; box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);">
+                                    <img id="profileImage" src="<?php echo $profilePic; ?>" alt="Profile" class="rounded-circle mb-3 profile-image-lg">
                                     <div class="profile-picture-overlay" onclick="document.getElementById('profilePictureInput').click();">
                                         <i class="fas fa-camera"></i>
                                     </div>
@@ -288,9 +288,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                             <div class="col-md-6 col-lg-4 mb-4">
                                                 <div class="card shadow-sm h-100">
                                                     <?php if(!empty($donation['image'])): ?>
-                                                        <img src="uploads/donations/<?php echo htmlspecialchars($donation['image']); ?>" class="card-img-top" alt="<?php echo htmlspecialchars($donation['title']); ?>" style="height: 200px; object-fit: cover;">
+                                                        <img src="uploads/donations/<?php echo htmlspecialchars($donation['image']); ?>" class="card-img-top img-cover h-200" alt="<?php echo htmlspecialchars($donation['title']); ?>">
                                                     <?php else: ?>
-                                                        <div class="bg-light d-flex align-items-center justify-content-center" style="height: 200px;">
+                                                        <div class="bg-light d-flex align-items-center justify-content-center h-200">
                                                             <i class="fas fa-book fa-4x text-muted"></i>
                                                         </div>
                                                     <?php endif; ?>
@@ -808,7 +808,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         currentImageContainer.innerHTML = `
                             <div class="mt-2">
                                 <p class="small text-muted mb-1">Current Image:</p>
-                                <img src="${img.src}" class="img-thumbnail" style="max-height: 100px;">
+                                <img src="${img.src}" class="img-thumbnail max-h-100">
                             </div>`;
                     // Reset form validation
                     const form = document.getElementById('editDonationForm');
