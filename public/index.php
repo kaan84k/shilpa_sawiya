@@ -146,37 +146,7 @@ require_once '../config/config.php';
                 </div>
             </div>
         </div>
-    </section>
-
-    <style>
-    .features-section {
-        background-color: #f8f9fa;
-    }
-    .feature-icon {
-        background-color: rgba(13, 110, 253, 0.1);
-        width: 80px;
-        height: 80px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin: 0 auto;
-        transition: all 0.3s ease;
-    }
-    .feature-icon:hover {
-        background-color: rgba(13, 110, 253, 0.2);
-        transform: translateY(-5px);
-    }
-    .shadow-hover {
-        transition: all 0.3s ease;
-    }
-    .shadow-hover:hover {
-        box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-    }
-    .hover-translate-y-n3:hover {
-        transform: translateY(-3px);
-    }
-    </style>
+</section>
 
     <section class="how-it-works py-5 bg-light">
         <div class="container">
@@ -396,99 +366,7 @@ require_once '../config/config.php';
                 </div>
             </div>
         </div>
-    </footer>
-
-    <style>
-    .footer-section {
-        background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
-    }
-    .footer-section h4 {
-        color: #fff;
-        font-weight: 600;
-    }
-    .footer-section a {
-        transition: color 0.3s ease;
-    }
-    .footer-section a:hover {
-        color: #0d6efd !important;
-    }
-    .social-links a {
-        font-size: 1.5rem;
-        transition: transform 0.3s ease;
-    }
-    .social-links a:hover {
-        transform: translateY(-3px);
-    }
-    .footer-section hr {
-        border-color: rgba(255,255,255,0.1);
-    }
-    .footer-section i {
-        color: #0d6efd;
-    }
-    .testimonials-section {
-        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-    }
-    .testimonial-card {
-        background: white;
-        transition: all 0.3s ease;
-        position: relative;
-        overflow: hidden;
-    }
-    .testimonial-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-    }
-    .testimonial-card::before {
-        content: "\f10d";
-        font-family: "Font Awesome 5 Free";
-        font-weight: 900;
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        color: #e9ecef;
-        font-size: 24px;
-        opacity: 0.2;
-        transform: rotate(45deg);
-    }
-    .testimonial-card .rounded-circle {
-        border: 3px solid #fff;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    }
-    .carousel-control-prev,
-    .carousel-control-next {
-        width: 50px;
-        height: 50px;
-        background: rgba(255,255,255,0.9);
-        border-radius: 50%;
-        border: none;
-        transition: all 0.3s ease;
-    }
-    .carousel-control-prev:hover,
-    .carousel-control-next:hover {
-        transform: scale(1.1);
-        background: white;
-    }
-    .how-it-works {
-        background-color: #f8f9fa;
-    }
-    .step-number {
-        width: 40px;
-        height: 40px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-weight: bold;
-        transition: all 0.3s ease;
-    }
-    .step-number:hover {
-        transform: rotate(360deg);
-    }
-    .testimonial-card {
-        transition: all 0.3s ease;
-    }
-    .testimonial-card:hover {
-        transform: translateY(-5px);
-    }
+</footer>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
