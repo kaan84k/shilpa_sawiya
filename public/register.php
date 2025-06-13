@@ -2,6 +2,9 @@
 session_start();
 require_once '../config/config.php';
 
+$isAjax = !empty($_SERVER['HTTP_X_REQUESTED_WITH']) &&
+          strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest';
+
 if(isset($_POST['register'])) {
     $email = mysqli_real_escape_string($conn, $_POST['email']);
     $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
@@ -27,11 +30,22 @@ if(isset($_POST['register'])) {
                     VALUES ('$name', '$email', '$password', '$mobile', '$location', 0, NOW())";
             
             if(mysqli_query($conn, $sql)) {
-                $_SESSION['success'] = "Registration successful! Please login.";
-                header("Location: login.php");
+                if ($isAjax) {
+                    header('Content-Type: application/json');
+                    echo json_encode(['success' => true, 'message' => 'Registration successful!']);
+                } else {
+                    $_SESSION['success'] = "Registration successful! Please login.";
+                    header("Location: login.php");
+                }
                 exit();
             } else {
-                $error = "Error: " . mysqli_error($conn);
+                if ($isAjax) {
+                    header('Content-Type: application/json', true, 400);
+                    echo json_encode(['success' => false, 'message' => 'Error: ' . mysqli_error($conn)]);
+                    exit();
+                } else {
+                    $error = "Error: " . mysqli_error($conn);
+                }
             }
         }
     }
@@ -87,7 +101,9 @@ if(isset($_POST['register'])) {
                                 <label for="confirm_password" class="form-label">Confirm Password</label>
                                 <input type="password" class="form-control" id="confirm_password" name="confirm_password" required>
                             </div>
-                            <button type="submit" name="register" class="btn btn-primary w-100">Register</button>
+                            <button type="submit" name="register" id="registerBtn" class="btn btn-primary w-100">
+                                <i class="fas fa-user-plus me-1"></i>Register
+                            </button>
                         </form>
                         <div class="text-center mt-3">
                             <p>Already have an account? <a href="login.php">Login here</a></p>
@@ -111,35 +127,49 @@ if(isset($_POST['register'])) {
         // Initialize autocomplete for location
         $(document).ready(function() {
             $.getJSON('data/districts.json', function(data) {
-                var districts = data.districts;
-                
                 $("#location").autocomplete({
-                    source: districts,
-                    minLength: 1, // Show suggestions after 1 character
+                    source: data.districts,
+                    minLength: 1,
                     select: function(event, ui) {
                         $(this).val(ui.item.value);
-                    },
-                    focus: function(event, ui) {
-                        // Prevent the value from being set on focus
                         return false;
                     }
-                }).data("ui-autocomplete")._renderItem = function(ul, item) {
-                    return $("<li>")
-                        .append("<div>" + item.label + "</div>")
-                        .appendTo(ul);
-                };
+                });
+            });
+
+            $('#registerForm').on('submit', function(e) {
+                e.preventDefault();
+                const password = $('#password').val();
+                const confirmPassword = $('#confirm_password').val();
+                if (password !== confirmPassword) {
+                    showRegisterAlert('Passwords do not match!', 'danger');
+                    return;
+                }
+
+                const btn = $('#registerBtn');
+                const alertDiv = $('#registerAlert');
+                btn.prop('disabled', true)
+                   .html('<span class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span> Registering...');
+                alertDiv.addClass('d-none').removeClass('alert-danger alert-success').text('');
+                $.ajax({
+                    url: '',
+                    type: 'POST',
+                    data: $(this).serialize(),
+                    dataType: 'json'
+                }).done(function(res) {
+                    if (res.success) {
+                        alertDiv.removeClass('d-none alert-danger').addClass('alert-success').text(res.message);
+                        setTimeout(function(){ window.location.href = 'login.php'; }, 1500);
+                    } else {
+                        alertDiv.removeClass('d-none').addClass('alert-danger').text(res.message || 'Registration failed');
+                    }
+                }).fail(function() {
+                    alertDiv.removeClass('d-none').addClass('alert-danger').text('An error occurred. Please try again.');
+                }).always(function() {
+                    btn.prop('disabled', false).html('<i class="fas fa-user-plus me-1"></i>Register');
+                });
             });
         });
-
-            document.getElementById('registerForm').addEventListener('submit', function(e) {
-                const password = document.getElementById('password').value;
-                const confirmPassword = document.getElementById('confirm_password').value;
-
-                if (password !== confirmPassword) {
-                    e.preventDefault();
-                    showRegisterAlert('Passwords do not match!', 'danger');
-                }
-            });
     </script>
 </body>
 </html>
