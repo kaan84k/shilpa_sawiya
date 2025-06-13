@@ -92,7 +92,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $userAuth = new UserAuth($conn);
     $user = $userAuth->getUserById($_SESSION['user_id']);
     ?>
-<nav class="navbar navbar-expand-lg sticky-top">
+<nav class="navbar navbar-expand-lg sticky-top" role="navigation" aria-label="Main navigation">
         <div class="container">
             <a class="navbar-brand" href="index.php">
                 <i class="fas fa-book-reader me-2"></i>
@@ -142,7 +142,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 <i class="fas fa-exclamation-circle me-2"></i><?php echo htmlspecialchars($error); ?>
                             </div>
                         <?php endif; ?>
-                        <div id="donateAlert" class="alert d-none" role="alert"></div>
+                        <div id="donateAlert" class="alert d-none" role="alert" aria-live="assertive"></div>
                         
                         <form action="donate.php" method="POST" enctype="multipart/form-data" class="needs-validation" novalidate>
                             <div class="mb-3">
@@ -241,12 +241,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             window.location.href = 'view-donation.php?id=' + response.donation_id;
                         }, 1500);
                     } else {
-                        showAlert(response.message, 'danger');
+                        showAlert(response.message || 'Please review the form for errors.', 'danger');
                     }
                 },
                 error: function(xhr, status, error) {
                     console.error('Error:', error);
-                    showAlert('An error occurred while processing your request. Please try again.', 'danger');
+                    showAlert('Unable to submit your donation right now.', 'danger');
                 },
                 complete: function() {
                     btn.prop('disabled', false).html('<i class="fas fa-paper-plane me-1"></i>Submit Donation');

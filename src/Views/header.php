@@ -2,7 +2,7 @@
 require_once 'config.php';
 ?>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-<nav class="navbar navbar-expand-lg sticky-top">
+<nav class="navbar navbar-expand-lg sticky-top" role="navigation" aria-label="Main navigation">
         <div class="container">
             <a class="navbar-brand" href="index.php">
                 <i class="fas fa-book-reader me-2"></i>
