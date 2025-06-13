@@ -126,9 +126,9 @@ $user = $userAuth->getUserById($_SESSION['user_id']);
                                     <div class="col-md-4 mb-4">
                                         <div class="card shadow-sm h-100">
                                             <?php if(!empty($donation['image'])): ?>
-                                                <img src="uploads/donations/<?php echo htmlspecialchars($donation['image']); ?>" class="card-img-top" alt="<?php echo htmlspecialchars($donation['title']); ?>" style="height: 200px; object-fit: cover;">
+                                                <img src="uploads/donations/<?php echo htmlspecialchars($donation['image']); ?>" class="card-img-top img-cover h-200" alt="<?php echo htmlspecialchars($donation['title']); ?>">
                                             <?php else: ?>
-                                                <div class="bg-light d-flex align-items-center justify-content-center" style="height: 200px;">
+                                                <div class="bg-light d-flex align-items-center justify-content-center h-200">
                                                     <i class="fas fa-box-open fa-3x text-muted"></i>
                                                 </div>
                                             <?php endif; ?>

@@ -157,7 +157,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                     <input type="file" class="form-control" id="image" name="image" accept="image/*">
                                     <div class="form-text">Supported formats: JPG, JPEG, PNG. Max size: 2MB</div>
                                     <div class="mt-2">
-                                        <img id="imagePreview" src="#" alt="Image Preview" style="max-width: 200px; max-height: 200px; display: none;" class="img-thumbnail">
+                                        <img id="imagePreview" src="#" alt="Image Preview" class="img-thumbnail max-w-200 max-h-200 d-none">
                                     </div>
                                 </div>
                             <div class="row">

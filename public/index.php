@@ -182,7 +182,7 @@ require_once '../config/config.php';
                                 <div class="testimonial-card h-100 border-0 shadow-hover rounded-4 hover-translate-y-n3">
                                     <div class="card-body p-4">
                                         <div class="d-flex align-items-center mb-3">
-                                            <img src="https://via.placeholder.com/50" alt="User 1" class="rounded-circle me-3" style="width: 50px; height: 50px; object-fit: cover;">
+                                            <img src="https://via.placeholder.com/50" alt="User 1" class="rounded-circle me-3 img-cover w-50 h-50">
                                             <div>
                                                 <h5 class="mb-0">Priya Sharma</h5>
                                                 <small class="text-muted">Teacher</small>
@@ -205,7 +205,7 @@ require_once '../config/config.php';
                                 <div class="testimonial-card h-100 border-0 shadow-hover rounded-4 hover-translate-y-n3">
                                     <div class="card-body p-4">
                                         <div class="d-flex align-items-center mb-3">
-                                            <img src="https://via.placeholder.com/50" alt="User 2" class="rounded-circle me-3" style="width: 50px; height: 50px; object-fit: cover;">
+                                            <img src="https://via.placeholder.com/50" alt="User 2" class="rounded-circle me-3 img-cover w-50 h-50">
                                             <div>
                                                 <h5 class="mb-0">Rahul Kumar</h5>
                                                 <small class="text-muted">Student</small>
@@ -228,7 +228,7 @@ require_once '../config/config.php';
                                 <div class="testimonial-card h-100 border-0 shadow-hover rounded-4 hover-translate-y-n3">
                                     <div class="card-body p-4">
                                         <div class="d-flex align-items-center mb-3">
-                                            <img src="https://via.placeholder.com/50" alt="User 3" class="rounded-circle me-3" style="width: 50px; height: 50px; object-fit: cover;">
+                                            <img src="https://via.placeholder.com/50" alt="User 3" class="rounded-circle me-3 img-cover w-50 h-50">
                                             <div>
                                                 <h5 class="mb-0">Amita Desai</h5>
                                                 <small class="text-muted">Parent</small>

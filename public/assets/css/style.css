@@ -482,6 +482,77 @@ footer {
     transform: translateY(-3px);
 }
 
+/* Utility Classes */
+.h-50 {
+    height: 50px;
+}
+
+.h-200 {
+    height: 200px;
+}
+
+.h-40 {
+    height: 40px;
+}
+
+.w-40 {
+    width: 40px;
+}
+
+.w-50 {
+    width: 50px;
+}
+
+.w-80 {
+    width: 80px;
+}
+
+.h-80 {
+    height: 80px;
+}
+
+.img-cover {
+    object-fit: cover;
+}
+
+.icon-muted-large {
+    font-size: 4rem;
+    opacity: 0.5;
+}
+
+.icon-2rem {
+    font-size: 2rem;
+}
+
+.profile-image-lg {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border: 3px solid #fff;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
+
+.spinner-3rem {
+    width: 3rem;
+    height: 3rem;
+}
+
+.max-h-100 {
+    max-height: 100px;
+}
+
+.max-h-150 {
+    max-height: 150px;
+}
+
+.max-w-200 {
+    max-width: 200px;
+}
+
+.max-h-200 {
+    max-height: 200px;
+}
+
 /* How It Works Section */
 .how-it-works {
     background-color: #f8f9fa;

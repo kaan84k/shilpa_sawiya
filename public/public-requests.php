@@ -38,7 +38,7 @@ $public_requests = $request->getPublicRequests($category, $location, $date_range
                 <form method="GET" class="row g-3 align-items-end">
                     <div class="col-lg-3 col-md-6">
                         <label for="category" class="form-label fw-medium text-muted mb-1">Category</label>
-                        <select class="form-select form-select-lg" id="category" name="category" style="height: 50px;">
+                        <select class="form-select form-select-lg h-50" id="category" name="category">
                             <option value="">All Categories</option>
                             <option value="Books" <?php echo $category === 'Books' ? 'selected' : ''; ?>>📚 Books</option>
                             <option value="Stationery" <?php echo $category === 'Stationery' ? 'selected' : ''; ?>>✏️ Stationery</option>
@@ -62,7 +62,7 @@ $public_requests = $request->getPublicRequests($category, $location, $date_range
                     <div class="card border-0 shadow-sm rounded-3">
                         <div class="card-body text-center p-5">
                             <div class="mb-4">
-                                <i class="fa-solid fa-book" style="font-size: 4rem; opacity: 0.5;"></i>
+                                <i class="fa-solid fa-book icon-muted-large"></i>
                             </div>
                             <h4 class="text-muted mb-3">No Requests Found</h4>
                             <p class="text-muted mb-4">We couldn't find any requests matching your criteria. Try adjusting your filters or check back later.</p>
@@ -92,11 +92,10 @@ $public_requests = $request->getPublicRequests($category, $location, $date_range
                         <div class="position-relative">
                             <?php if(!empty($req['image'])): ?>
                                 <img src="uploads/requests/<?php echo htmlspecialchars($req['image']); ?>" 
-                                     class="card-img-top object-fit-cover" 
-                                     alt="<?php echo htmlspecialchars($req['title']); ?>"
-                                     style="height: 200px; width: 100%; object-fit: cover;">
+                                     class="card-img-top img-cover h-200"
+                                     alt="<?php echo htmlspecialchars($req['title']); ?>">
                             <?php else: ?>
-                                <div class="bg-light d-flex align-items-center justify-content-center" style="height: 200px;">
+                                <div class="bg-light d-flex align-items-center justify-content-center h-200">
                                     <i class="fas fa-<?php echo $category_icon['icon']; ?> fa-4x text-<?php echo $category_icon['color']; ?>-subtle"></i>
                                 </div>
                             <?php endif; ?>
