@@ -9,64 +9,9 @@ require_once '../config/config.php';
     <title>Shilpa Sawiya - Bridging Educational Gaps Through Donation</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg sticky-top">
-        <div class="container">
-            <a class="navbar-brand" href="index.php">
-                <i class="fas fa-book-reader me-2"></i>
-                <span class="brand-text">Shilpa Sawiya</span>
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav me-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="donations.php">
-                        <i class="fa-solid fa-book"></i>Donations
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="public-requests.php">
-                        <i class="fa-solid fa-book-open"></i>Requests
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#about">
-                        <i class="fa-solid fa-address-card"></i>About
-                        </a>
-                    </li>
-                </ul>
-                <ul class="navbar-nav">
-                    <?php if(isset($_SESSION['user_id'])): ?>
-                        <li class="nav-item">
-                            <a class="nav-link" href="dashboard.php">
-                                <i class="fas fa-user me-1"></i>Dashboard
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="logout.php">
-                                <i class="fas fa-sign-out-alt me-1"></i>Logout
-                            </a>
-                        </li>
-                    <?php else: ?>
-                        <li class="nav-item">
-                            <a class="nav-link" href="login.php">
-                                <i class="fas fa-sign-in-alt me-1"></i>Login
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="register.php">
-                                <i class="fas fa-user-plus me-1"></i>Register
-                            </a>
-                        </li>
-                    <?php endif; ?>
-                </ul>
-            </div>
-        </div>
-    </nav>
+    <?php include '../src/Views/header.php'; ?>
 
     <header class="hero-section py-5 bg-light">
         <div class="container">
@@ -318,55 +263,7 @@ require_once '../config/config.php';
         </div>
     </section>
 
-    <footer class="footer-section py-5 bg-dark text-white">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-4 mb-4 mb-lg-0">
-                    <h4 class="h5 mb-4">About Shilpa Sawiya</h4>
-                    <p class="text-muted mb-4">
-                        Shilpa Sawiya is a community-driven platform dedicated to making education accessible by connecting donors with educational needs.
-                    </p>
-                    <div class="social-links">
-                        <a href="#" class="text-white me-3"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#" class="text-white me-3"><i class="fab fa-twitter"></i></a>
-                        <a href="#" class="text-white me-3"><i class="fab fa-instagram"></i></a>
-                        <a href="#" class="text-white"><i class="fab fa-linkedin-in"></i></a>
-                    </div>
-                </div>
-                <div class="col-lg-4 mb-4 mb-lg-0">
-                    <h4 class="h5 mb-4">Quick Links</h4>
-                    <ul class="list-unstyled">
-                        <li class="mb-3"><a href="about.php" class="text-muted text-decoration-none">About Us</a></li>
-                        <li class="mb-3"><a href="how-it-works.php" class="text-muted text-decoration-none">How It Works</a></li>
-                        <li class="mb-3"><a href="faq.php" class="text-muted text-decoration-none">FAQ</a></li>
-                        <li class="mb-3"><a href="contact.php" class="text-muted text-decoration-none">Contact Us</a></li>
-                        <li class="mb-3"><a href="privacy.php" class="text-muted text-decoration-none">Privacy Policy</a></li>
-                    </ul>
-                </div>
-                <div class="col-lg-4">
-                    <h4 class="h5 mb-4">Contact Us</h4>
-                    <div class="mb-3">
-                        <i class="fas fa-map-marker-alt me-2"></i>
-                        <span>123 Education Street, Knowledge City, 123456</span>
-                    </div>
-                    <div class="mb-3">
-                        <i class="fas fa-envelope me-2"></i>
-                        <a href="mailto:contact@shilpasawiya.com" class="text-muted text-decoration-none">contact@shilpasawiya.com</a>
-                    </div>
-                    <div>
-                        <i class="fas fa-phone me-2"></i>
-                        <a href="tel:+911234567890" class="text-muted text-decoration-none">+91 123 456 7890</a>
-                    </div>
-                </div>
-            </div>
-            <hr class="my-4">
-            <div class="row">
-                <div class="col-12 text-center">
-                    <p class="mb-0 text-muted">&copy; <?php echo date('Y'); ?> Shilpa Sawiya. All rights reserved.</p>
-                </div>
-            </div>
-        </div>
-</footer>
+    <?php include '../src/Views/footer.php'; ?>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
