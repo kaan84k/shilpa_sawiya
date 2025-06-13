@@ -60,7 +60,8 @@ if(isset($_POST['register'])) {
                         <?php if(isset($error)): ?>
                             <div class="alert alert-danger"><?php echo $error; ?></div>
                         <?php endif; ?>
-                        
+                        <div id="registerAlert" class="alert d-none" role="alert"></div>
+
                         <form method="POST" action="" id="registerForm">
                             <div class="mb-3">
                                 <label for="name" class="form-label">Full Name</label>
@@ -101,6 +102,12 @@ if(isset($_POST['register'])) {
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
     <script>
+        function showRegisterAlert(message, type = 'danger') {
+            const alertDiv = document.getElementById('registerAlert');
+            alertDiv.className = 'alert alert-' + type;
+            alertDiv.textContent = message;
+            alertDiv.classList.remove('d-none');
+        }
         // Initialize autocomplete for location
         $(document).ready(function() {
             $.getJSON('data/districts.json', function(data) {
@@ -124,15 +131,15 @@ if(isset($_POST['register'])) {
             });
         });
 
-        document.getElementById('registerForm').addEventListener('submit', function(e) {
-            const password = document.getElementById('password').value;
-            const confirmPassword = document.getElementById('confirm_password').value;
-            
-            if(password !== confirmPassword) {
-                e.preventDefault();
-                alert('Passwords do not match!');
-            }
-        });
+            document.getElementById('registerForm').addEventListener('submit', function(e) {
+                const password = document.getElementById('password').value;
+                const confirmPassword = document.getElementById('confirm_password').value;
+
+                if (password !== confirmPassword) {
+                    e.preventDefault();
+                    showRegisterAlert('Passwords do not match!', 'danger');
+                }
+            });
     </script>
 </body>
 </html>

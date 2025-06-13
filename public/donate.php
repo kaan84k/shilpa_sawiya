@@ -142,6 +142,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 <i class="fas fa-exclamation-circle me-2"></i><?php echo htmlspecialchars($error); ?>
                             </div>
                         <?php endif; ?>
+                        <div id="donateAlert" class="alert d-none" role="alert"></div>
                         
                         <form action="donate.php" method="POST" enctype="multipart/form-data" class="needs-validation" novalidate>
                             <div class="mb-3">
@@ -198,6 +199,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
     <script>
+    function showAlert(message, type = 'success') {
+        const alertDiv = document.getElementById('donateAlert');
+        alertDiv.className = 'alert alert-' + type;
+        alertDiv.textContent = message;
+        alertDiv.classList.remove('d-none');
+    }
     // Image preview functionality
     document.getElementById('image').addEventListener('change', function(e) {
         const file = e.target.files[0];
@@ -226,18 +233,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 dataType: 'json',
                 success: function(response) {
                     if (response.success) {
-                        // Show success message
-                        alert(response.message);
-                        // Redirect to view the donation
-                        window.location.href = 'view-donation.php?id=' + response.donation_id;
+                        showAlert(response.message, 'success');
+                        setTimeout(() => {
+                            window.location.href = 'view-donation.php?id=' + response.donation_id;
+                        }, 1500);
                     } else {
-                        // Show error message
-                        alert('Error: ' + response.message);
+                        showAlert(response.message, 'danger');
                     }
                 },
                 error: function(xhr, status, error) {
                     console.error('Error:', error);
-                    alert('An error occurred while processing your request. Please try again.');
+                    showAlert('An error occurred while processing your request. Please try again.', 'danger');
                 }
             });
         });
