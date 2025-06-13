@@ -187,7 +187,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 <input type="file" class="form-control" id="image" name="image" accept="image/*">
                                 <div class="form-text">Upload a clear photo of the book (max 5MB, optional)</div>
                             <div class="d-flex gap-2">
-                                <button type="submit" class="btn btn-primary">
+                                <button type="submit" id="submitDonationBtn" class="btn btn-primary">
                                     <i class="fas fa-paper-plane me-1"></i>Submit Donation
                                 </button>
                                 <a href="donations.php" class="btn btn-outline-secondary">
@@ -224,6 +224,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             e.preventDefault();
             const form = $(this);
             const formData = new FormData(this);
+            const btn = $('#submitDonationBtn');
+            btn.prop('disabled', true)
+               .html('<span class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span> Submitting...');
             $.ajax({
                 url: form.attr('action'),
                 type: 'POST',
@@ -244,6 +247,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 error: function(xhr, status, error) {
                     console.error('Error:', error);
                     showAlert('An error occurred while processing your request. Please try again.', 'danger');
+                },
+                complete: function() {
+                    btn.prop('disabled', false).html('<i class="fas fa-paper-plane me-1"></i>Submit Donation');
                 }
             });
         });
@@ -252,17 +258,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <script src="https://cdn.jsdelivr.net/npm/moment/min/moment.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
     <script src="assets/js/search.js"></script>
-        $(document).ready(function() {
-            // Initialize location autocomplete
-            $.getJSON('data/districts.json', function(data) {
-                var districts = data.districts;
-                
-                $("#location").autocomplete({
-                    source: data.districts,
-                    minLength: 1,
-                    select: function(event, ui) {
-                        $(this).val(ui.item.value);
-                        return false;
-                });
+    <script>
+    $(document).ready(function() {
+        $.getJSON('data/districts.json', function(data) {
+            $("#location").autocomplete({
+                source: data.districts,
+                minLength: 1,
+                select: function(event, ui) {
+                    $(this).val(ui.item.value);
+                    return false;
+                }
+            });
+        });
+    });
+    </script>
 </body>
 </html>
