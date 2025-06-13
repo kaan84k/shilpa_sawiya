@@ -465,9 +465,21 @@ footer {
     margin: 0 auto;
     transition: all 0.3s ease;
 }
+
 .feature-icon:hover {
     background-color: rgba(13, 110, 253, 0.2);
     transform: translateY(-5px);
+}
+
+/* Utility Hover Effects */
+.shadow-hover {
+    transition: all 0.3s ease;
+}
+.shadow-hover:hover {
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+.hover-translate-y-n3:hover {
+    transform: translateY(-3px);
 }
 
 /* How It Works Section */
