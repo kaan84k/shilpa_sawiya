@@ -201,10 +201,10 @@ $user_requests = $request->getUserRequests($user_id);
                             if (data.success) {
                                 window.location.reload();
                             } else {
-                                alert(data.message);
+                                showAlert(data.message, false);
                             }
                         .catch(error => {
-                            alert('An error occurred while processing your request.');
+                            showAlert('An error occurred while processing your request.', false);
                         });
                     };
                     confirmModal.show();
